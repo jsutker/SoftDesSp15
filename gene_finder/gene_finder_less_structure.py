@@ -100,7 +100,7 @@ def longest_ORF_noncoding(dna, num_trials):
 
     longest_length = 0
     for i in range(num_trials):
-        ORF = longest_ORF(dna)
+        ORF = longest_ORF(shuffle_string(dna))
         if len(ORF) > longest_length:
             longest_length = len(ORF)
     return longest_length
@@ -153,11 +153,8 @@ dna_sal = load_salmonella_genome()
 threshold = longest_ORF_noncoding(dna,1500)
 print "Threshold: %d" % threshold
 thingies = gene_finder(dna, threshold)
-#print thingies
-#print len(thingies)
 for i in range(len(thingies)):
     print "Protein #%d:" % (i+1), coding_strand_to_AA(thingies[i])
-
 
 if __name__ == "__main__":
     import doctest
