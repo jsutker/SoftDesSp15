@@ -9,7 +9,12 @@ Created on Sun Feb  2 11:24:42 2014
 # you may find it useful to import these variables (although you are not required to use them)
 from amino_acids_less_structure import aa, codons
 import random
-from load import load_seq
+from load import *
+
+def shuffle_string(s):
+    """ Shuffles the characters in the input string
+        NOTE: this is a helper function, you do not have to modify this in any way """
+    return ''.join(random.sample(s,len(s)))
 
 ### YOU WILL START YOUR IMPLEMENTATION FROM HERE DOWN ###
 
@@ -90,9 +95,17 @@ def longest_ORF_noncoding(dna, num_trials):
         
         dna: a DNA sequence
         num_trials: the number of random shuffles
-        returns: the maximum length longest ORF """
-    # TODO: implement this
-    pass
+        returns: the maximum length longest ORF
+    """
+
+    longest_length = 0
+    for i in range(num_trials):
+        ORF = longest_ORF(dna)
+        if len(ORF) > longest_length:
+            longest_length = len(ORF)
+    return longest_length
+
+
 
 def coding_strand_to_AA(dna):
     """ Computes the Protein encoded by a sequence of DNA.  This function
@@ -119,8 +132,8 @@ def coding_strand_to_AA(dna):
 
 
 def gene_finder(dna, threshold):
-    """ Returns the amino acid sequences coded by all genes that have an ORF
-        larger than the specified threshold.
+    """ Returns the amino acid sequences coded by all genes that
+        have an ORF larger than the specified threshold.
         
         dna: a DNA sequence
         threshold: the minimum length of the ORF for it to be considered a valid
@@ -128,12 +141,22 @@ def gene_finder(dna, threshold):
         returns: a list of all amino acid sequences whose ORFs meet the minimum
                  length specified.
     """
-    # TODO: implement this
-    pass
+    long_ORFs = []
+    ORFs = find_all_ORFs_both_strands(dna)
+    for ORF in ORFs:
+        if len(ORF) >= threshold:
+            long_ORFs += [ORF]
+    return long_ORFs
 
-print find_all_ORFs_both_strands("ATGCGAATGTAGCATCAAA")
-print longest_ORF("ATGCGAATGTAGCATCAAA")
-print coding_strand_to_AA(longest_ORF("ATGCGAATGTAGCATCAAA"))
+dna = load_seq("./data/X73525.fa")
+dna_sal = load_salmonella_genome()
+threshold = longest_ORF_noncoding(dna,1500)
+print "Threshold: %d" % threshold
+thingies = gene_finder(dna, threshold)
+#print thingies
+#print len(thingies)
+for i in range(len(thingies)):
+    print "Protein #%d:" % (i+1), coding_strand_to_AA(thingies[i])
 
 
 if __name__ == "__main__":
