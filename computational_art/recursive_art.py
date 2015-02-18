@@ -1,4 +1,10 @@
-""" TODO: Put your header comment here """
+"""
+Creates 350x350 pixel images using a random function
+inclusive of various functions described below.
+
+@author: JOSEPH SUTKER
+
+"""
 
 import random
 from PIL import Image
