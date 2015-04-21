@@ -126,7 +126,7 @@ if __name__ == '__main__':
         word limit is reached
     """
     num_words_to_check = 2000
-    make_plot = False               # Should we make a plot of running time versus input size?
+    make_plot = True              # Should we make a plot of running time versus input size?
 
     skip_factors = range(1,20)     # which skip factors to test 
     if not(make_plot):
